@@ -9,11 +9,13 @@
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-#
-# import os
-# import sys
-# sys.path.insert(0, os.path.abspath('.'))
 
+
+import os
+import sys
+import toml
+
+sys.path.insert(0, os.path.abspath('..'))
 
 # -- Project information -----------------------------------------------------
 
@@ -22,7 +24,7 @@ copyright = '2021, Bradley Reynolds'
 author = 'Bradley Reynolds'
 
 # The full version, including alpha/beta/rc tags
-release = '0.1.0'
+release = toml.load('../../pyproject.toml')['tool']['poetry']['version']
 
 
 # -- General configuration ---------------------------------------------------
@@ -31,7 +33,20 @@ release = '0.1.0'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    'recommonmark',
+    'autoapi.extension',
+    'sphinx.ext.coverage',
+    'sphinx.ext.napoleon',
+    'sphinxcontrib.apidoc',
+    'sphinx.ext.viewcode',
+    'sphinx_rtd_theme'
 ]
+
+apidoc_module_dir = '../bradworks'
+
+autoapi_type = 'python'
+autoapi_dirs = [apidoc_module_dir]
+
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -47,7 +62,7 @@ exclude_patterns = []
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'alabaster'
+html_theme = 'sphinx_rtd_theme'
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
