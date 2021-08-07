@@ -8,8 +8,7 @@ import requests
 
 
 class BusinessCentralServices:
-    """A class wrapping Business Central's API.
-
+    """
     This class wraps Business Central's API, only ODataV4 is implemented.
     """
 
@@ -37,7 +36,6 @@ class BusinessCentralServices:
             self,
             resource: str,
             values: list[str] = None,
-            query: str = None
     ):
         if values is None:
             values = []
@@ -54,8 +52,6 @@ class BusinessCentralServices:
                 else:
                     resource_url += f"'{value}',"
             resource_url = resource_url[:-1] + ')'
-        if query:
-            resource_url += query
         return self.odata_url + resource_url
 
     def _make_request(
@@ -64,12 +60,12 @@ class BusinessCentralServices:
             resource: str = None,
             resource_data: dict[str, Union[str, int, bool]] = None,
             values: list[str] = None,
-            query: str = None,
+            params: dict[str, str] = None,
             etag: str = None,
     ) -> dict:
         args = {
             'method': method,
-            'url': self._build_resource_url(resource=resource, values=values, query=query),
+            'url': self._build_resource_url(resource=resource, values=values),
             'auth': (self.username, self.web_service_access_key),
             'headers': {'Content-Type': 'application/json'}
         }
@@ -80,5 +76,9 @@ class BusinessCentralServices:
         if etag is not None:
             args['headers']['If-Match'] = etag
 
+        if params is not None:
+            args['params'] = params
+
         response = requests.request(**args)
+        response.raise_for_status()
         return response.json()
