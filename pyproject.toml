@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "darbiadev-businesscentral"
-version = "0.3.0"
+version = "0.4.0"
 description = "darbiadev-businesscentral"
 authors = ["Bradley Reynolds <bradley.reynolds@darbia.dev>"]
 license = "MIT"
