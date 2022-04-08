@@ -1,20 +1,15 @@
-.. darbiadev-businesscentral documentation master file, created by
-   sphinx-quickstart on Mon Jul 26 17:57:22 2021.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+darbiadev_businesscentral
+=========================
 
-Welcome to darbiadev-businesscentral's documentation!
-=====================================================
+``darbiadev_businesscentral`` is a wrapper for Business Central's API.
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+Module Index
+------------
 
+Each of the ``darbiadev_businesscentral`` modules is documented here.
 
+..  toctree::
+    :maxdepth: 1
+    :glob:
 
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+    businesscentral_services

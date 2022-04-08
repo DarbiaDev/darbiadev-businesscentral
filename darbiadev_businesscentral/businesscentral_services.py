@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+"""Provides BusinessCentralServices"""
 
 from datetime import datetime, timedelta
 
@@ -7,7 +8,7 @@ import requests
 
 class BusinessCentralServices:
     """
-    This class wraps Business Central's API, only ODataV4 is implemented.
+    This class wraps Business Central's API.
     """
 
     def __init__(
@@ -28,6 +29,7 @@ class BusinessCentralServices:
         self.odata_url: str = self.odata_base_url + self.odata_company
 
     def _update_token(self) -> None:
+        """Update the OAUTH2 token"""
         if self.__oauth_token_expires_at < datetime.now():
             response = requests.post(
                 url=self.token_url,
@@ -75,6 +77,29 @@ class BusinessCentralServices:
         params: dict[str, str] = None,
         etag: str = None,
     ) -> dict:
+        """
+        Make an authenticated ODataV4 request.
+
+        Parameters
+        ----------
+        method
+            The HTTP method
+        resource
+            The requested resource
+        resource_data
+            The data to update on the resource
+        values
+            Resource PK values
+        params
+            Extra URL parameters
+        etag
+            Resource ETAG
+
+        Returns
+        -------
+        dict
+            The resource data returned by the API
+        """
         self._update_token()
 
         args = {
@@ -96,6 +121,23 @@ class BusinessCentralServices:
         return response.json()
 
     def make_unbound_request(self, codeunit: str, procedure: str, data: dict[str, str]) -> dict:
+        """
+        Make an authenticated ODataV4 request.
+
+        Parameters
+        ----------
+        codeunit
+            The requested codeunit
+        procedure
+            The requested procedure
+        data
+            Data to supply to the procedure
+
+        Returns
+        -------
+        dict
+            The response JSON from the server
+        """
         self._update_token()
 
         args = {
