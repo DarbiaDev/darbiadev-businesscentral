@@ -92,6 +92,3 @@ jobs:
       - name: Run pylint
         run: "pdm run pylint darbiadev_businesscentral \
         --msg-template='::error file={path},line={line},col={column}::[pylint] {category} {msg_id}: {msg}'"
-
-      - name: Run tests and generate coverage report
-        run: pdm run pytest --cov --disable-warnings -q
