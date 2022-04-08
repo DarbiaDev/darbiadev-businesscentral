@@ -6,27 +6,24 @@ from datetime import datetime, timedelta
 import requests
 
 
-class BusinessCentralServices:
+class BusinessCentralServices:  # pylint: disable=too-many-instance-attributes
     """
     This class wraps Business Central's API.
     """
 
-    def __init__(
+    def __init__(  # pylint: disable=too-many-arguments
         self, base_url: str, tenant_id: str, environment: str, company_name: str, client_id: str, client_secret: str
     ):
-        self.base_url: str = base_url
-        self.__tenant_id: str = tenant_id
-        self.environment: str = environment
         self.company_name: str = company_name
+
         self.__client_id: str = client_id
         self.__client_secret: str = client_secret
         self.__oauth_token: str = ""
         self.__oauth_token_expires_at: datetime = datetime.now()
 
-        self.token_url = f"https://login.microsoftonline.com/{self.__tenant_id}/oauth2/v2.0/token"
-        self.odata_base_url: str = base_url + f"{self.__tenant_id}/{self.environment}/ODataV4/"
-        self.odata_company: str = f"Company('{company_name}')/"
-        self.odata_url: str = self.odata_base_url + self.odata_company
+        self.token_url: str = f"https://login.microsoftonline.com/{tenant_id}/oauth2/v2.0/token"
+        self.odata_base_url: str = base_url + f"{tenant_id}/{environment}/ODataV4/"
+        self.odata_url: str = self.odata_base_url + f"Company('{company_name}')/"
 
     def _update_token(self) -> None:
         """Update the OAUTH2 token"""
@@ -68,7 +65,7 @@ class BusinessCentralServices:
     def _build_unbound_action_url(self, codeunit: str, procedure: str) -> str:
         return self.odata_base_url + f"{codeunit}_{procedure}/"
 
-    def make_request(
+    def make_request(  # pylint: disable=too-many-arguments
         self,
         method: str,
         resource: str,
